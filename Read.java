@@ -2,24 +2,19 @@ package www.home.connectors;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import com.mysql.cj.jdbc.Driver;
+public class Read {
 
-//creating the database
-public class Program2 {
-
-	public static void main(String[] args)  {
-		
-        Scanner sc=new Scanner(System.in);
-        System.out.println("enter the database name to create");
-        String dbname=sc.next();
+	public static void main(String[] args) {
+		 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			 String url = "jdbc:mysql://localhost:3306";
+			 String url = "jdbc:mysql://localhost:3306/db30";
 	            // jdbc:api, mysql:DB, localhost: NW, 3306: Port, May_Dest_Jdbc: database name
 
 	           
@@ -30,15 +25,18 @@ public class Program2 {
 	            
 	            
 	            Statement stmt=con.createStatement();
-	            
 
-	            
-				//create a database
-				String sql="create database "+dbname;
-				int a=stmt.executeUpdate(sql);
-				System.out.println("Database created sucessfully");
-		} 
-		
+	            ResultSet rs = stmt.executeQuery("select * from Student");
+
+	            System.out.println("Student Details:");
+	            while (rs.next()) {
+	                System.out.println(
+	                    rs.getInt("id") + " " +
+	                    rs.getString("name") + " " +
+	                    rs.getInt("marks")
+	                );
+	            }
+		}
 		
 		catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
